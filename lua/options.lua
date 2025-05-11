@@ -2,8 +2,10 @@
 -- See `:help vim.opt`
 --  For more options, you can see `:help option-list`
 
+-- Hide cmd
 vim.opt.cmdheight = 0
 
+-- Custom statusline
 function search_results()
 	-- Check if search mode
 	local in_search_mode = vim.fn.mode():match("[/?]") ~= nil
@@ -24,13 +26,13 @@ end
 
 local statusline = {
 	"%f",
+	"%#Normal#",
 	"%=",
 	"%{%v:lua.search_results()%}",
 }
 
 vim.o.statusline = table.concat(statusline, "")
 
--- vim.opt.statusline = "%f%=%l"
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
