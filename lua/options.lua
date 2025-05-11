@@ -49,8 +49,21 @@ function search_results()
 	return string.format("[%d|%d]", current.current, current.total)
 end
 
+function filepath()
+	local filepath = vim.fn.expand("%:p")
+
+	-- Check if the path starts with "oil://" and crop it
+	if vim.startswith(filepath, "oil://") then
+		-- Remove the "oil://" prefix
+		return filepath:gsub("^oil://", "")
+	end
+
+	-- Return original filepath if it doesn't start with "oil://"
+	return "%f"
+end
+
 local statusline = {
-	"%f",
+	"%{%v:lua.filepath()%}",
 	"%#Normal#",
 	"%=",
 	"%{%v:lua.search_results()%}",
