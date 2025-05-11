@@ -20,4 +20,4 @@ vim.keymap.set("n", "J", "15j", { desc = "Move 15 lines down" })
 vim.keymap.set("n", "K", "15k", { desc = "Move 15 lines up" })
 
 -- Make
-vim.keymap.set("n", "<C-m>", "<cmd>make -B<cr>", { desc = "Make build" })
+vim.keymap.set("n", "<C-b>", "<cmd>make -B<cr>", { desc = "Make build" })
