@@ -1,6 +1,31 @@
--- [[ Setting options ]]
+-- [[ Options ]]
 -- See `:help vim.opt`
 --  For more options, you can see `:help option-list`
+
+-- Open Oil at startup
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		-- Only open Oil if no files were specified on the command line
+		if #vim.fn.argv() == 0 then
+			-- Get the real current working directory
+			local cwd = vim.fn.getcwd()
+
+			-- Make sure Oil is loaded before we try to use it
+			vim.schedule(function()
+				-- Ensure the Oil module is available
+				local oil_ok, oil = pcall(require, "oil")
+				if oil_ok then
+					-- Open Oil with the explicit current working directory
+					oil.open(cwd)
+				else
+					vim.notify("Oil plugin not found", vim.log.levels.WARN)
+				end
+			end)
+		end
+	end,
+	group = vim.api.nvim_create_augroup("OilOpenCWD", { clear = true }),
+	desc = "Open Oil in current directory on startup when no files specified",
+})
 
 -- Hide cmd
 vim.opt.cmdheight = 0
