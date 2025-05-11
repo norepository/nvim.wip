@@ -2,12 +2,41 @@
 -- See `:help vim.opt`
 --  For more options, you can see `:help option-list`
 
+vim.opt.cmdheight = 0
+
+function search_results()
+	-- Check if search mode
+	local in_search_mode = vim.fn.mode():match("[/?]") ~= nil
+
+	-- Get the current search data from vim
+	local current = vim.fn.searchcount({ recompute = 1, maxcount = -1 })
+
+	-- Only show indicator when actively searching or immediately after
+	-- Check both search mode and hlsearch to determine if search is active
+	local hlsearch_on = vim.v.hlsearch == 1
+
+	if not (in_search_mode or hlsearch_on) or current.total == 0 then
+		return ""
+	end
+
+	return string.format("[%d|%d]", current.current, current.total)
+end
+
+local statusline = {
+	"%f",
+	"%=",
+	"%{%v:lua.search_results()%}",
+}
+
+vim.o.statusline = table.concat(statusline, "")
+
+-- vim.opt.statusline = "%f%=%l"
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
 
 -- Enable mouse mode
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
@@ -17,7 +46,7 @@ vim.opt.showmode = false
 --  Remove this option if you want your OS clipboard to remain independent.
 --  See `:help 'clipboard'`
 vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
+	vim.opt.clipboard = "unnamedplus"
 end)
 
 -- Enable break indent
@@ -31,7 +60,7 @@ vim.opt.ignorecase = true
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = "yes"
 
 -- Decrease update time
 vim.opt.updatetime = 250
@@ -50,7 +79,7 @@ vim.opt.splitbelow = true
 -- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
-vim.opt.inccommand = 'split'
+vim.opt.inccommand = "split"
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
