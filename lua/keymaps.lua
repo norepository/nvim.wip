@@ -16,5 +16,8 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- Move faster between lines
-vim.keymap.set("n", "J", "15j")
-vim.keymap.set("n", "K", "15k")
+vim.keymap.set("n", "J", "15j", { desc = "Move 15 lines down" })
+vim.keymap.set("n", "K", "15k", { desc = "Move 15 lines up" })
+
+-- Make
+vim.keymap.set("n", "<C-m>", "<cmd>make -B<cr>", { desc = "Make build" })
