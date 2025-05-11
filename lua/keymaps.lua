@@ -21,3 +21,6 @@ vim.keymap.set("n", "K", "15k", { desc = "Move 15 lines up" })
 
 -- Make
 vim.keymap.set("n", "<C-b>", "<cmd>make -B<cr>", { desc = "Make build" })
+
+-- Man
+vim.keymap.set("n", "<C-m>", ":Man ", { desc = "Manual", nowait = true })
