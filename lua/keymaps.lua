@@ -24,3 +24,6 @@ vim.keymap.set("n", "<C-b>", "<cmd>make -B<cr>", { desc = "Make build" })
 
 -- Man
 vim.keymap.set("n", "<C-m>", ":Man ", { desc = "Manual", nowait = true })
+
+-- File explorer
+vim.keymap.set("n", "<C-e>", "<cmd>e .<cr>", { desc = "Open file explorer" })

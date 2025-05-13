@@ -9,6 +9,7 @@ return {
 			"size",
 			-- "icon",
 		},
+		watch_for_changes = true,
 		keymaps = {
 			["g?"] = { "actions.show_help", mode = "n" },
 			["<CR>"] = "actions.select",
