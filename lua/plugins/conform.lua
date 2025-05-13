@@ -10,11 +10,12 @@ return {
 			lua = { "stylua" },
 			c = { "clang-format" },
 			cpp = { "clang-format" },
-			-- Conform will run multiple formatters sequentially
-			python = { "isort", "black" },
-			rust = { "rustfmt", lsp_format = "fallback" },
-			-- Conform will run the first available formatter
-			javascript = { "prettierd", "prettier", stop_after_first = true },
+			go = { "gofmt" },
+			-- -- Conform will run multiple formatters sequentially
+			-- python = { "isort", "black" },
+			-- rust = { "rustfmt", lsp_format = "fallback" },
+			-- -- Conform will run the first available formatter
+			-- javascript = { "prettierd", "prettier", stop_after_first = true },
 		},
 	},
 }
