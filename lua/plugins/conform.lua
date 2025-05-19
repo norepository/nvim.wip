@@ -12,7 +12,7 @@ return {
 			cpp = { "clang-format" },
 			go = { "gofmt" },
 			-- -- Conform will run multiple formatters sequentially
-			-- python = { "isort", "black" },
+			python = { "isort", "black" },
 			-- rust = { "rustfmt", lsp_format = "fallback" },
 			-- -- Conform will run the first available formatter
 			-- javascript = { "prettierd", "prettier", stop_after_first = true },

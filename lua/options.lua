@@ -54,10 +54,12 @@ function filepath()
 
 	-- Check if the path starts with "oil://" and crop it
 	if vim.startswith(filepath, "oil://") then
-		-- Remove the "oil://" prefix
-		return filepath:gsub("^oil://", "")
+		filepath = filepath:gsub("^oil://", "")
+		-- Check icloud path
+		if vim.startswith(filepath, "/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/") then
+			return filepath:gsub("^/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/", "ICLOUD_PATH/")
+		end
 	end
-
 	-- Return original filepath if it doesn't start with "oil://"
 	return "%f"
 end
@@ -71,6 +73,12 @@ local statusline = {
 
 vim.o.statusline = table.concat(statusline, "")
 
+vim.keymap.set("n", "<space>st", function()
+	vim.cmd.vnew()
+	vim.cmd.term()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 10)
+end)
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
