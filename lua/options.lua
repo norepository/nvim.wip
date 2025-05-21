@@ -74,15 +74,15 @@ end
 function filepath()
 	local filepath = vim.fn.expand("%:p")
 
-	-- Check if the path starts with "oil://" and crop it
+	-- Remove "oil://" from path
 	if vim.startswith(filepath, "oil://") then
 		filepath = filepath:gsub("^oil://", "")
-		-- Check icloud path
-		if vim.startswith(filepath, "/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/") then
-			return filepath:gsub("^/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/", "ICLOUD_PATH/")
-		end
 	end
-	-- Return original filepath if it doesn't start with "oil://"
+	-- Remove "/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/" from path
+	if vim.startswith(filepath, "/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/") then
+		return filepath:gsub("^/Users/samuele/Library/Mobile Documents/com~apple~CloudDocs/", "iCloud/")
+	end
+
 	return filepath
 end
 
