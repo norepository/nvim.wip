@@ -20,10 +20,20 @@ vim.keymap.set("n", "J", "15j", { desc = "Move 15 lines down" })
 vim.keymap.set("n", "K", "15k", { desc = "Move 15 lines up" })
 
 -- Make
-vim.keymap.set("n", "<C-b>", "<cmd>make -B<cr>", { desc = "Make build" })
+vim.keymap.set("n", "<C-b>", "<cmd>:Make<cr>", { desc = "Make func" })
+vim.keymap.set("n", "<C-m>", ":make ", { desc = "Make input", nowait = true })
 
 -- Man
-vim.keymap.set("n", "<C-m>", ":Man ", { desc = "Manual", nowait = true })
+-- vim.keymap.set("n", "<C-m>", ":Man ", { desc = "Manual", nowait = true })
 
 -- File explorer
-vim.keymap.set("n", "<C-e>", "<cmd>e .<cr>", { desc = "Open file explorer" })
+-- vim.keymap.set("n", "<C-e>", "<cmd>e .<cr>", { desc = "Open file explorer" })
+vim.keymap.set("n", "<C-e>", "<cmd>Oil<cr>", { desc = "Open parent directory" })
+
+-- Neovim terminal
+vim.keymap.set("n", "<space>st", function()
+	vim.cmd.vnew()
+	vim.cmd.term()
+	vim.cmd.wincmd("J")
+	vim.api.nvim_win_set_height(0, 10)
+end)

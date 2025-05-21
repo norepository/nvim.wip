@@ -2,6 +2,10 @@
 -- See `:help vim.opt`
 --  For more options, you can see `:help option-list`
 
+--
+-- [[ User commands and functions ]]
+--
+
 -- Open Oil at startup
 vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
@@ -17,6 +21,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 				if oil_ok then
 					-- Open Oil with the explicit current working directory
 					oil.open(cwd)
+					update_statusline()
 				else
 					vim.notify("Oil plugin not found", vim.log.levels.WARN)
 				end
@@ -27,8 +32,25 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	desc = "Open Oil in current directory on startup when no files specified",
 })
 
--- Hide cmd
-vim.opt.cmdheight = 0
+vim.api.nvim_create_user_command("Make", function(params)
+	-- Insert args at the '$*' in the makeprg
+	local cmd, num_subs = vim.o.makeprg:gsub("%$%*", params.args)
+	if num_subs == 0 then
+		cmd = cmd .. " " .. params.args
+	end
+	local task = require("overseer").new_task({
+		cmd = vim.fn.expandcmd(cmd),
+		components = {
+			{ "on_output_quickfix", open = not params.bang, open_height = 8 },
+			"default",
+		},
+	})
+	task:start()
+end, {
+	desc = "Run your makeprg as an Overseer task",
+	nargs = "*",
+	bang = true,
+})
 
 -- Custom statusline
 function search_results()
@@ -61,24 +83,33 @@ function filepath()
 		end
 	end
 	-- Return original filepath if it doesn't start with "oil://"
-	return "%f"
+	return filepath
 end
 
-local statusline = {
-	"%{%v:lua.filepath()%}",
-	"%#Normal#",
-	"%=",
-	"%{%v:lua.search_results()%}",
-}
+function update_statusline()
+	local statusline = {
+		"%{%v:lua.filepath()%}",
+		"%#Normal#",
+		"%=",
+		"%{%v:lua.search_results()%}",
+	}
 
-vim.o.statusline = table.concat(statusline, "")
+	vim.o.statusline = table.concat(statusline, "")
+end
 
-vim.keymap.set("n", "<space>st", function()
-	vim.cmd.vnew()
-	vim.cmd.term()
-	vim.cmd.wincmd("J")
-	vim.api.nvim_win_set_height(0, 10)
-end)
+vim.api.nvim_create_autocmd("BufEnter", {
+	callback = update_statusline,
+	group = vim.api.nvim_create_augroup("MyNewBufferGroup", { clear = true }),
+	desc = "Update statusline evert time a new buffer is created",
+})
+
+--
+-- [[ Other options ]]
+--
+
+-- Hide cmd
+vim.opt.cmdheight = 0
+
 -- Make line numbers default
 vim.opt.number = true
 vim.opt.relativenumber = true
