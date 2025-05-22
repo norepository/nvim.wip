@@ -21,7 +21,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 				if oil_ok then
 					-- Open Oil with the explicit current working directory
 					oil.open(cwd)
-					update_statusline()
 				else
 					vim.notify("Oil plugin not found", vim.log.levels.WARN)
 				end
@@ -32,27 +31,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	desc = "Open Oil in current directory on startup when no files specified",
 })
 
-vim.api.nvim_create_user_command("Make", function(params)
-	-- Insert args at the '$*' in the makeprg
-	local cmd, num_subs = vim.o.makeprg:gsub("%$%*", params.args)
-	if num_subs == 0 then
-		cmd = cmd .. " " .. params.args
-	end
-	local task = require("overseer").new_task({
-		cmd = vim.fn.expandcmd(cmd),
-		components = {
-			{ "on_output_quickfix", open = not params.bang, open_height = 8 },
-			"default",
-		},
-	})
-	task:start()
-end, {
-	desc = "Run your makeprg as an Overseer task",
-	nargs = "*",
-	bang = true,
-})
-
--- Custom statusline
+--
+-- [[ Custom statusline]]
+--
 function search_results()
 	-- Check if search mode
 	local in_search_mode = vim.fn.mode():match("[/?]") ~= nil
@@ -100,7 +81,7 @@ end
 vim.api.nvim_create_autocmd("BufEnter", {
 	callback = update_statusline,
 	group = vim.api.nvim_create_augroup("MyNewBufferGroup", { clear = true }),
-	desc = "Update statusline evert time a new buffer is created",
+	desc = "Update statusline evert time a new buffer is focused",
 })
 
 --
