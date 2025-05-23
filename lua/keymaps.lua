@@ -26,16 +26,15 @@ vim.keymap.set("n", "<C-b>", ":make ", { desc = "Make input", nowait = true })
 -- vim.keymap.set("n", "<C-m>", ":Man ", { desc = "Manual", nowait = true })
 
 -- File explorer
--- vim.keymap.set("n", "<C-e>", "<cmd>e .<cr>", { desc = "Open file explorer" })
 vim.keymap.set("n", "<C-e>", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 
 -- Neovim terminal
-vim.keymap.set("n", "<space>st", function()
-	vim.cmd.vnew()
-	vim.cmd.term()
-	vim.cmd.wincmd("J")
-	vim.api.nvim_win_set_height(0, 10)
-end)
+-- vim.keymap.set("n", "<space>st", function()
+-- 	vim.cmd.vnew()
+-- 	vim.cmd.term()
+-- 	vim.cmd.wincmd("J")
+-- 	vim.api.nvim_win_set_height(0, 10)
+-- end)
 
 -- Lsp
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
@@ -44,6 +43,7 @@ vim.keymap.set("n", "gi", vim.lsp.buf.implementation, {})
 vim.keymap.set("n", "gr", vim.lsp.buf.references, {})
 vim.keymap.set("n", "gc", vim.lsp.buf.code_action, {})
 vim.keymap.set("n", "gh", vim.lsp.buf.hover, {})
+vim.keymap.set("n", "gs", "<cmd>AerialToggle<cr>", {})
 
 -- Search selection
 vim.keymap.set(
@@ -63,7 +63,7 @@ end)
 vim.keymap.set("n", "<Leader>i", function()
 	require("dap").step_into()
 end)
-vim.keymap.set("n", "<Leader>O", function()
+vim.keymap.set("n", "<Leader>u", function()
 	require("dap").step_out()
 end)
 vim.keymap.set("n", "<Leader>b", function()
