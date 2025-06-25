@@ -1,6 +1,14 @@
 -- Clear search highlights
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>")
 
+-- Close QuickFix windo
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "qf",
+	callback = function()
+		vim.keymap.set("n", "q", ":cclose<CR>", { buffer = true, noremap = true, silent = true })
+	end,
+})
+
 -- Fzf Keymaps
 vim.keymap.set("n", "<leader>f", "<cmd>FzfLua files<cr>", { desc = "Fuzzy find files" })
 vim.keymap.set("n", "<leader>g", "<cmd>FzfLua live_grep<cr>", { desc = "Fuzzy grep files" })
